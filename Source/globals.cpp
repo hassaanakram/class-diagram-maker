@@ -737,7 +737,7 @@ void remove_comments()
             itr = tokens.erase(itr);
             itr = tokens.erase(itr);
 
-            while(*itr != "\n")
+            while(*itr != "\n" && *itr != "itendshere")
             {
                 itr = tokens.erase(itr);
             }
@@ -774,7 +774,8 @@ void extract_tokens()
         //Increment counter
         i++;
     }
-
+    //Append a NULL string at the end
+    tokens.push_back("itendshere");
     //Done
     return;
 }
@@ -1220,7 +1221,6 @@ void search_class()
 
 void search_param(vector<string>::iterator& pos, const vector<string>& b_points, vector<Variable*>& var)
 {
-    bool flag = false;
     /*function to search for variables between the specified iterator and words*/
     while(pos != tokens.end() && !match(b_points, pos))
     {
@@ -1303,7 +1303,6 @@ bool search_arr(vector<string>::iterator& pos, vector<Variable*>& var)
 {
     string name;
     string type;
-    int elem = 0;
 
     //Search for array members
     if ((match(data_types, pos) && *(pos + 2) == "[" && *(pos + 4) == "]" && *(pos + 5) == "=") || (match(data_types, pos) && *(pos + 2) == "[" && *(pos + 4) == "]" && *(pos + 5) == ";")) //int a[x] =  || int a[x];
