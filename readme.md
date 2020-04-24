@@ -16,10 +16,10 @@ Output for code given in sampleCode.txt:
 **Note:** For clarity, screenshots of different portions of the generated SVG are provided here.  
   
 ###### Classes without any inheretance relations  
-![output1](https://github.com/hassaanakram/class-diagram-maker/tree/master/Samples/indepSample.jpg?raw=true)
+![output1](https://github.com/hassaanakram/class-diagram-maker/blob/master/Samples/indepSample.JPG)
   
 ###### Classes that have inheretance relations  
-![output1](https://github.com/hassaanakram/class-diagram-maker/tree/master/Samples/inhSample.jpg?raw=true)
+![output1](https://github.com/hassaanakram/class-diagram-maker/blob/master/Samples/inhSample.JPG)
 
 
 
