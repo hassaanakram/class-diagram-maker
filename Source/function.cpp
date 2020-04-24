@@ -26,7 +26,7 @@ Function::Function(string n, string r_t)
 void Function::display(QPainter& painter)
 {
     //To store the initial starting position for x to use on a new line
-    int old_start_x = start_x;
+    int old_startingX_for_text = startingX_for_text;
     //Vector of QStrings to store the parameters
     vector<QString> params;
     //Resizing. As vector::push_back() was not working as expected
@@ -57,28 +57,28 @@ void Function::display(QPainter& painter)
         move_down = true;
 
     //Drawing here "function("
-    painter.drawText(start_x, start_y, QString::fromStdString(name + "("));
-    start_x += (name.length()) * 6 + 5;
+    painter.drawText(startingX_for_text, startingY_for_text, QString::fromStdString(name + "("));
+    startingX_for_text += (name.length()) * 6 + 5;
     //Now for the parameters part
     for(auto itr = params.begin(); itr != params.end(); itr++)
     {
-        painter.drawText(start_x, start_y, *itr);
-        start_y += 15;
-        start_x = old_start_x;
+        painter.drawText(startingX_for_text, startingY_for_text, *itr);
+        startingY_for_text += 15;
+        startingX_for_text = old_startingX_for_text;
     }
-    start_y -= 15;
-    //Change start_x
+    startingY_for_text -= 15;
+    //Change startingX_for_text
     if(move_down)
     {
-        start_x += ((params.back()).length()) * 6;
+        startingX_for_text += ((params.back()).length()) * 6;
     }
     else
     {
-        start_x += (name.length())*6;
-        start_x += 5;
-        start_x += (params[c].length())*6;
+        startingX_for_text += (name.length())*6;
+        startingX_for_text += 5;
+        startingX_for_text += (params[c].length())*6;
     }
-    painter.drawText(start_x, start_y, "): " + QString::fromStdString(this->return_type));
-    start_x = old_start_x;
+    painter.drawText(startingX_for_text, startingY_for_text, "): " + QString::fromStdString(this->return_type));
+    startingX_for_text = old_startingX_for_text;
     return;
 }

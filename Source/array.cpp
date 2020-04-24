@@ -16,13 +16,13 @@ void Array::display(QPainter& painter, int mode)
 {
     if(mode == 0)
     {
-        painter.drawText(start_x, start_y, QString::fromStdString(name + "[]: " + type));
+        painter.drawText(startingX_for_text, startingY_for_text, QString::fromStdString(name + "[]: " + type));
 
         return;
     }
     else if(mode == 1)
     {
-        painter.drawText(start_x, start_y, QString::fromStdString(type + "[]"));
+        painter.drawText(startingX_for_text, startingY_for_text, QString::fromStdString(type + "[]"));
 
         return;
     }

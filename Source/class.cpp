@@ -3,6 +3,7 @@
 #include "../Headers/globals.h"
 #include <QString>
 #include <QFileDialog>
+#include <QFont>
 #include <QPainter>
 
 using std::string;
@@ -73,44 +74,48 @@ void Class::display(QPainter& painter)
 {
      //Drawing will be done here
 
-         //Printing name of class
-         painter.drawText(start_x, start_y, QString::fromStdString(name));
-         start_y += 10;
-         painter.drawRect(x1,start_y,box_width,1); //Separtation line
-         //painter.drawLine(x1,start_y,box_width,start_y);
-         start_y += 15;
+         //Printing name of class in bold and centered
+         painter.setFont(QFont("Arial", 12, QFont::Bold));
+         painter.drawText(startingX_for_classBox+(box_width/2), startingY_for_text, QString::fromStdString(name));
+         painter.setFont(QFont("Arial", 12, QFont::Normal));
+
+         //10Px space to draw the line
+         startingY_for_text += 10;
+         painter.drawRect(startingX_for_classBox,startingY_for_text,box_width,1); //Separtation line
+         //painter.drawLine(startingX_for_classBox,startingY_for_text,box_width,startingY_for_text); //drawLine didnt work for some reason
+         startingY_for_text += 15;
 
          if(pvt_data_members.size() > 0 || pub_data_members.size() > 0 || prot_data_members.size() > 0)
          {
             //Printing attributes first public, then pvt, then protected
             for(auto it = pvt_data_members.begin(); it != pvt_data_members.end(); it++)
             {
-                painter.drawText(start_x, start_y, "-");
-                start_x += 10;
+                painter.drawText(startingX_for_text, startingY_for_text, "-");
+                startingX_for_text += 10;
                 (*it)->display(painter, 0);
-                start_x -= 10;
-                start_y += 10;
+                startingX_for_text -= 10;
+                startingY_for_text += 10;
             }
             for(auto it = pub_data_members.begin(); it != pub_data_members.end(); it++)
             {
-                painter.drawText(start_x, start_y, "+");
-                start_x += 10;
+                painter.drawText(startingX_for_text, startingY_for_text, "+");
+                startingX_for_text += 10;
                 (*it)->display(painter, 0);
-                start_x -= 10;
-                start_y += 10;
+                startingX_for_text -= 10;
+                startingY_for_text += 10;
             }
             for(auto it = prot_data_members.begin(); it != prot_data_members.end(); it++)
             {
-                painter.drawText(start_x, start_y, "#");
-                start_x += 10;
+                painter.drawText(startingX_for_text, startingY_for_text, "#");
+                startingX_for_text += 10;
                 (*it)->display(painter, 0);
-                start_x -= 10;
-                start_y += 10;
+                startingX_for_text -= 10;
+                startingY_for_text += 10;
             }
 
             //Separation line
-            painter.drawRect(x1,start_y,box_width,1);
-            start_y += 15;
+            painter.drawRect(startingX_for_classBox,startingY_for_text,box_width,1);
+            startingY_for_text += 15;
          }
          if(pvt_member_functions.size() > 0 || pub_member_functions.size() > 0 ||  prot_member_functions.size() > 0
                  || frnd_functions.size() > 0 || virtual_functions.size()  > 0)
@@ -118,48 +123,48 @@ void Class::display(QPainter& painter)
             //Printing Methods (private, public, protected)
             for(auto it = pvt_member_functions.begin(); it != pvt_member_functions.end(); it++)
            {
-                painter.drawText(start_x, start_y, "-");
-                start_x += 10;
+                painter.drawText(startingX_for_text, startingY_for_text, "-");
+                startingX_for_text += 10;
                 (*it)->display(painter);
-                start_y += 10;
-                start_x -= 10;
+                startingY_for_text += 10;
+                startingX_for_text -= 10;
             }
             for(auto it = pub_member_functions.begin(); it != pub_member_functions.end(); it++)
             {
-                painter.drawText(start_x, start_y, "+");
-                start_x += 10;
+                painter.drawText(startingX_for_text, startingY_for_text, "+");
+                startingX_for_text += 10;
                 (*it)->display(painter);
-                start_x -= 10;
-                start_y += 10;
+                startingX_for_text -= 10;
+                startingY_for_text += 10;
             }
             for(auto it = prot_member_functions.begin(); it != prot_member_functions.end(); it++)
             {
-                painter.drawText(start_x, start_y, "#");
-                start_x += 10;
+                painter.drawText(startingX_for_text, startingY_for_text, "#");
+                startingX_for_text += 10;
                 (*it)->display(painter);
-                start_x -= 10;
-                start_y += 10;
+                startingX_for_text -= 10;
+                startingY_for_text += 10;
             }
             for(auto it = virtual_functions.begin(); it != virtual_functions.end(); it++)
             {
-                painter.drawText(start_x, start_y, "virtual ");
-                start_x += 40;
+                painter.drawText(startingX_for_text, startingY_for_text, "virtual ");
+                startingX_for_text += 40;
                 (*it)->display(painter);
-                start_x -= 40;
-                start_y += 10;
+                startingX_for_text -= 40;
+                startingY_for_text += 10;
             }
             for(auto it = frnd_functions.begin(); it != frnd_functions.end(); it++)
             {
-                painter.drawText(start_x, start_y, "friend ");
-                start_x += 40;
+                painter.drawText(startingX_for_text, startingY_for_text, "friend ");
+                startingX_for_text += 40;
                 (*it)->display(painter);
-                start_x -= 40;
-                start_y += 10;
+                startingX_for_text -= 40;
+                startingY_for_text += 10;
             }
          }
 
          //Drawing the box
-         painter.drawRect(x1,y1,box_width,start_y - y1);
+         painter.drawRect(startingX_for_classBox,startingY_for_classBox,box_width,startingY_for_text - startingY_for_classBox);
 
 }
 int Class::get_dchilds()

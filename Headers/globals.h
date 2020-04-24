@@ -15,32 +15,32 @@
 #include "array.h"
 #include "container.h"
 #include "win_main.h"
-
 //Qt
 #include <QtSvg/QSvgGenerator>
 
 using std::vector;
 using std::string;
 
+//Global Objects/Variables
     extern QSvgGenerator temp_img;
     //extern QImage final_img;
 
     extern int x_space;
     extern int y_space;
-    extern int x1_base;
-    extern int y1_base;
-    extern int start_x_base;
-    extern int start_y_base;
+    extern int startingX_for_baseClassBox;
+    extern int startingY_for_baseClassBox;
+    extern int startingX_for_baseClassText;
+    extern int startingY_for_baseClassText;
     extern int prev_x;
     extern int i;
     extern int row;
     extern int prev_ry;
     extern int box_height;
     extern int box_width;
-    extern int x1;
-    extern int y1;
-    extern int start_x;
-    extern int start_y;
+    extern int startingX_for_classBox;
+    extern int startingY_for_classBox;
+    extern int startingX_for_text;
+    extern int startingY_for_text;
     extern int longest_y;
     extern int longest_x;
     extern int least_x;
@@ -57,7 +57,8 @@ using std::string;
     extern vector<string> containers;
     extern vector<string> dtype_containers;
 
-    //Functions
+
+    //Global Functions
     extern void print(Win_main *w); //Final results
     extern void print_IndepClasses(QPainter& painter);
     extern void print_InheritedClass(QPainter& painter, vector<Class>::iterator& itr);

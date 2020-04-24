@@ -1,0 +1,293 @@
+#ifndef ARRAY_H
+#define ARRAY_H
+
+/*CLASS DEFINITION FOR "Class" Array.*/
+#include <vector>
+#include <string>
+#include "variable.h"
+
+using std::vector;
+using std::string;
+
+class Array : public Variable
+{
+private:
+    /*Detected elements of a Array. Name and type inherited from variable*/
+    string elements;
+public:
+    //Constructors
+     Array() {}
+    Array(string/*name*/, string/*type*/, string/*elements*/);
+
+    friend void search_class();
+    virtual void display(QPainter& painter, int);
+};
+#endif // ARRAY_H
+#ifndef CLASS_H
+#define CLASS_H
+
+/*CLASS DEFINITION FOR "Class" CLASS.*/
+#include "variable.h"
+#include "function.h"
+#include "win_main.h"
+#include <QPainter>
+using std::vector;
+using std::string;
+
+class Class
+{
+private:
+    /*Detected elements of a class*/
+    string name;
+    vector<Variable*> pvt_data_members;
+    vector<Function*> pvt_member_functions;
+    vector<Variable*> prot_data_members;
+    vector<Function*> prot_member_functions;
+    vector<Variable*> pub_data_members;
+    vector<Function*> pub_member_functions; //Member functions include constructors
+    vector<Function*> frnd_functions;
+    vector<Function*> virtual_functions;
+    vector<string> frnd_classes;
+    bool inherited; /*Is it inherited BY somecalss or not?*/
+    bool derived; /*is it derived from some base class or not?*/
+    string base_class; /*If derived then the base class (currently no supporting multiple inheritence)*/
+    vector<Class*> childs;
+    int n_dchilds;
+    int n_ichilds;
+public:
+    //Constructor
+    Class(){}
+    Class(string/*Name*/, vector<Variable*>&/*pvt*/, vector<Function*>&/*pvt*/, vector<Variable*>& prot_var, vector<Function*>& prot_fun, vector<Variable*>&/*pub*/, vector<Function*>&/*pub*/, vector<Function*>&/*frnd fun*/, vector<string>&/*frnd classes*/, vector<Function*>&/*virtual funs*/
+          , string p = "", const Class* pb = nullptr);
+
+    int get_dchilds();
+    int get_ichilds();
+    friend void search_inhclass();
+    friend void print(Win_main *w);
+    friend void print_IndepClasses(QPainter& painter);
+    friend void print_InheritedClass(QPainter& painter, vector<Class>::iterator& itr);
+    friend void print_InheritedClass(QPainter& painter, vector<Class*>::iterator& itr);
+    virtual void display(QPainter& painter);
+};
+
+class Class
+{
+private:
+    /*Detected elements of a class*/
+    string name;
+    vector<Variable*> pvt_data_members;
+    vector<Function*> pvt_member_functions;
+    vector<Variable*> prot_data_members;
+    vector<Function*> prot_member_functions;
+    vector<Variable*> pub_data_members;
+    vector<Function*> pub_member_functions; //Member functions include constructors
+    vector<Function*> frnd_functions;
+    vector<Function*> virtual_functions;
+    vector<string> frnd_classes;
+    bool inherited; /*Is it inherited BY somecalss or not?*/
+    bool derived; /*is it derived from some base class or not?*/
+    string base_class; /*If derived then the base class (currently no supporting multiple inheritence)*/
+    vector<Class*> childs;
+    int n_dchilds;
+    int n_ichilds;
+public:
+    //Constructor
+    Class(){}
+    Class(string/*Name*/, vector<Variable*>&/*pvt*/, vector<Function*>&/*pvt*/, vector<Variable*>& prot_var, vector<Function*>& prot_fun, vector<Variable*>&/*pub*/, vector<Function*>&/*pub*/, vector<Function*>&/*frnd fun*/, vector<string>&/*frnd classes*/, vector<Function*>&/*virtual funs*/
+          , string p = "", const Class* pb = nullptr);
+
+    int get_dchilds();
+    int get_ichilds();
+    friend void search_inhclass();
+    friend void print(Win_main *w);
+    friend void print_IndepClasses(QPainter& painter);
+    friend void print_InheritedClass(QPainter& painter, vector<Class>::iterator& itr);
+    friend void print_InheritedClass(QPainter& painter, vector<Class*>::iterator& itr);
+    virtual void display(QPainter& painter);
+};
+
+
+#endif // CLASS_H
+#ifndef CONSTRUCTOR_H
+#define CONSTRUCTOR_H
+
+#include "function.h"
+#include "variable.h"
+
+using std::string;
+using std::vector;
+
+/*Constructor  Class definition*/
+class Constructor : public Function
+{
+public:
+    Constructor(string, vector<Variable*>);
+    Constructor(string);
+    virtual void display(QPainter& painter);
+};
+
+#endif // CONSTRUCTOR_H
+#ifndef CONTAINER_H
+#define CONTAINER_H
+
+/*Class Container*/
+
+#include <string>
+#include "variable.h"
+using std::string;
+
+class Container : public Variable
+{
+public:
+    Container();
+    Container(string/*name*/, string/*type*/);
+};
+
+#endif // CONTAINER_H
+#ifndef FUNCTION_H
+#define FUNCTION_H
+
+/*CLASS DEFINITION FOR "Function" CLASS.*/
+#include "variable.h"
+
+using std::vector;
+using std::string;
+
+class Function
+{
+private:
+    string return_type;
+protected:
+    /*Detected elements of a Function*/
+    string name;
+    vector<Variable*> parameters;
+public:
+    //Constructor
+    Function(){}
+    Function(string/*name*/, string/*return type*/, vector<Variable*>&/*Parameters*/);
+    Function(string/*name*/, string/*return type*/); //No argument functions
+
+    virtual void display(QPainter& painter);
+};
+#endif // FUNCTION_H
+#ifndef VARIABLE_H
+#define VARIABLE_H
+
+/*CLASS DEFINITION FOR "Class" CLASS.*/
+#include <vector>
+#include <string>
+#include <QPainter>
+
+using std::vector;
+using std::string;
+
+class Variable
+{
+protected:
+    /*Detected elements of a Variable*/
+    string name;
+    string type;
+public:
+    //Constructors
+    Variable(){}
+    Variable(string/*name*/, string/*type*/);
+    QString ret_type();
+    friend void search_class();
+    virtual void display(QPainter& painter, int);
+};
+#endif // VARIABLE_H
+
+
+
+
+
+
+
+
+
+
+
+class Variable2
+{
+protected:
+    /*Detected elements of a Variable*/
+    string name;
+    string type;
+public:
+    //Constructors
+    Variable(){}
+    Variable(string/*name*/, string/*type*/);
+    QString ret_type();
+    friend void search_class();
+    virtual void display(QPainter& painter, int);
+};
+#endif // VARIABLE_H
+
+class Variable3
+{
+protected:
+    /*Detected elements of a Variable*/
+    string name;
+    string type;
+public:
+    //Constructors
+    Variable(){}
+    Variable(string/*name*/, string/*type*/);
+    QString ret_type();
+    friend void search_class();
+    virtual void display(QPainter& painter, int);
+};
+#endif // VARIABLE_H
+
+class Variable4
+{
+protected:
+    /*Detected elements of a Variable*/
+    string name;
+    string type;
+public:
+    //Constructors
+    Variable(){}
+    Variable(string/*name*/, string/*type*/);
+    QString ret_type();
+    friend void search_class();
+    virtual void display(QPainter& painter, int);
+};
+#endif // VARIABLE_H
+
+class Variable5
+{
+protected:
+    /*Detected elements of a Variable*/
+    string name;
+    string type;
+public:
+    //Constructors
+    Variable(){}
+    Variable(string/*name*/, string/*type*/);
+    QString ret_type();
+    friend void search_class();
+    virtual void display(QPainter& painter, int);
+};
+#endif // VARIABLE_H
+
+
+
+
+class Variable6
+{
+protected:
+    /*Detected elements of a Variable*/
+    string name;
+    string type;
+public:
+    //Constructors
+    Variable(){}
+    Variable(string/*name*/, string/*type*/);
+    QString ret_type();
+    friend void search_class();
+    virtual void display(QPainter& painter, int);
+};
+#endif // VARIABLE_H
+
+

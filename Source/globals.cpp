@@ -12,20 +12,19 @@
 
 using namespace std;
 
-//Data
 QSvgGenerator temp_img;
 int x_space = 40;
 int y_space = 30;
 int row = 0;
-int x1_base = 0;
-int y1_base = 0;
-int start_x_base = 0;
-int start_y_base = 0;
+int startingX_for_baseClassBox = 0;
+int startingY_for_baseClassBox = 0;
+int startingX_for_baseClassText = 0;
+int startingY_for_baseClassText = 0;
 int box_width = 300;
-int x1 = 20;
-int y1 = 20;
-int start_x = 30;
-int start_y = 30;
+int startingX_for_classBox = 20;
+int startingY_for_classBox = 20;
+int startingX_for_text = 30;
+int startingY_for_text = 30;
 int longest_y = 0;
 int longest_x = 0;
 int least_x = 0;
@@ -46,19 +45,19 @@ vector<string> dtype_containers = {};
 /*------------------------------FUNCTION DEFINITIONS-----------------------------------*/
 void drawFork(QPainter& painter, const int& mode)
 {
-    static int prev_x1 = 0;
-    static int prev_y1 = 0;
-    static int prev_start_x = 0;
-    static int prev_start_y = 0;
+    static int prev_startingX_for_classBox = 0;
+    static int prev_startingY_for_classBox = 0;
+    static int prev_startingX_for_text = 0;
+    static int prev_startingY_for_text = 0;
     if(mode == 0)
     {
         QLineF *lines = new QLineF[2];
 
-        lines[0].setP1(QPoint(x1-10, y1 - y_space - (start_y - y1)/2));
-        lines[0].setP2(QPoint(x1 - 10, y1+(start_y - y1)/2));
+        lines[0].setP1(QPoint(startingX_for_classBox-10, startingY_for_classBox - y_space - (startingY_for_text - startingY_for_classBox)/2));
+        lines[0].setP2(QPoint(startingX_for_classBox - 10, startingY_for_classBox+(startingY_for_text - startingY_for_classBox)/2));
 
-        lines[1].setP1(QPoint(x1 - 10, y1 + (start_y - y1)/2));
-        lines[1].setP2(QPoint(x1, y1+(start_y - y1)/2));
+        lines[1].setP1(QPoint(startingX_for_classBox - 10, startingY_for_classBox + (startingY_for_text - startingY_for_classBox)/2));
+        lines[1].setP2(QPoint(startingX_for_classBox, startingY_for_classBox+(startingY_for_text - startingY_for_classBox)/2));
 
         painter.setPen(Qt::red);
         painter.drawLines(lines, 2);
@@ -66,10 +65,10 @@ void drawFork(QPainter& painter, const int& mode)
 
         if(i == 2)
         {
-            prev_x1 = x1;
-            prev_y1 = y1;
-            prev_start_x = x1 + 10;
-            prev_start_y = y1 + 10;
+            prev_startingX_for_classBox = startingX_for_classBox;
+            prev_startingY_for_classBox = startingY_for_classBox;
+            prev_startingX_for_text = startingX_for_classBox + 10;
+            prev_startingY_for_text = startingY_for_classBox + 10;
         }
 
         delete[] lines;
@@ -78,11 +77,11 @@ void drawFork(QPainter& painter, const int& mode)
     {
         QLineF *lines = new QLineF[2];
 
-        lines[0].setP1(QPoint(prev_x1-10, prev_y1 - y_space - (prev_start_y - y1)/2));
-        lines[0].setP2(QPoint(prev_x1 - 10, prev_y1+(prev_start_y - prev_y1)/2));
+        lines[0].setP1(QPoint(prev_startingX_for_classBox-10, prev_startingY_for_classBox - y_space - (prev_startingY_for_text - startingY_for_classBox)/2));
+        lines[0].setP2(QPoint(prev_startingX_for_classBox - 10, prev_startingY_for_classBox+(prev_startingY_for_text - prev_startingY_for_classBox)/2));
 
-        lines[1].setP1(QPoint(prev_x1 - 10, prev_y1 + (prev_start_y - prev_y1)/2));
-        lines[1].setP2(QPoint(prev_x1, prev_y1+(prev_start_y - prev_y1)/2));
+        lines[1].setP1(QPoint(prev_startingX_for_classBox - 10, prev_startingY_for_classBox + (prev_startingY_for_text - prev_startingY_for_classBox)/2));
+        lines[1].setP2(QPoint(prev_startingX_for_classBox, prev_startingY_for_classBox+(prev_startingY_for_text - prev_startingY_for_classBox)/2));
 
         painter.setPen(Qt::red);
         painter.drawLines(lines, 2);
@@ -98,23 +97,23 @@ void drawArrow(QPainter& painter, int mode/*to specify direction*/)
     {
         //Defining points
         QPoint *points = new QPoint[4];
-        points[0].setX(x1 + box_width/2);
-        points[0].setY(start_y);
+        points[0].setX(startingX_for_classBox + box_width/2);
+        points[0].setY(startingY_for_text);
 
-        points[1].setX(x1 + box_width/2 - 5);
-        points[1].setY(start_y + 5);
+        points[1].setX(startingX_for_classBox + box_width/2 - 5);
+        points[1].setY(startingY_for_text + 5);
 
-        points[2].setX(x1 + box_width/2 + 5);
-        points[2].setY(start_y + 5);
+        points[2].setX(startingX_for_classBox + box_width/2 + 5);
+        points[2].setY(startingY_for_text + 5);
 
-        points[3].setX(x1 + box_width/2);
-        points[3].setY(start_y);
+        points[3].setX(startingX_for_classBox + box_width/2);
+        points[3].setY(startingY_for_text);
 
         //Set coords for further use
-        x1_base = x1;
-        y1_base = y1;
-        start_x_base = start_x;
-        start_y_base = start_y;
+        startingX_for_baseClassBox = startingX_for_classBox;
+        startingY_for_baseClassBox = startingY_for_classBox;
+        startingX_for_baseClassText = startingX_for_text;
+        startingY_for_baseClassText = startingY_for_text;
         painter.setPen(Qt::red);
         painter.drawPolyline(points, 4);
         painter.setPen(Qt::black);
@@ -125,23 +124,23 @@ void drawArrow(QPainter& painter, int mode/*to specify direction*/)
     {
         //Defining points
         QPoint *points = new QPoint[4];
-        points[0].setX(x1 + box_width/2 + 10);
-        points[0].setY(y1);
+        points[0].setX(startingX_for_classBox + box_width/2 + 10);
+        points[0].setY(startingY_for_classBox);
 
-        points[1].setX(x1 + box_width/2 - 5 + 10);
-        points[1].setY(y1 - 5);
+        points[1].setX(startingX_for_classBox + box_width/2 - 5 + 10);
+        points[1].setY(startingY_for_classBox - 5);
 
-        points[2].setX(x1 + box_width/2 + 5 + 10);
-        points[2].setY(y1 - 5);
+        points[2].setX(startingX_for_classBox + box_width/2 + 5 + 10);
+        points[2].setY(startingY_for_classBox - 5);
 
-        points[3].setX(x1 + box_width/2 + 10);
-        points[3].setY(y1);
+        points[3].setX(startingX_for_classBox + box_width/2 + 10);
+        points[3].setY(startingY_for_classBox);
 
         //Set coords for further use
-        x1_base = x1;
-        y1_base = y1;
-        start_x_base = start_x;
-        start_y_base = start_y;
+        startingX_for_baseClassBox = startingX_for_classBox;
+        startingY_for_baseClassBox = startingY_for_classBox;
+        startingX_for_baseClassText = startingX_for_text;
+        startingY_for_baseClassText = startingY_for_text;
 
         painter.setPen(Qt::red);
         painter.drawPolyline(points, 4);
@@ -155,14 +154,14 @@ void drawILine(QPainter& painter, int mode)
     if(mode == 0)
     {
         QLineF *lines = new QLineF[3];
-        lines[0].setP1(QPoint(x1_base + box_width/2, start_y_base+ 5));
-        lines[0].setP2(QPoint(x1 - 10, y1));
+        lines[0].setP1(QPoint(startingX_for_baseClassBox + box_width/2, startingY_for_baseClassText+ 5));
+        lines[0].setP2(QPoint(startingX_for_classBox - 10, startingY_for_classBox));
 
-        lines[1].setP1(QPoint(x1 - 10, y1));
-        lines[1].setP2(QPoint(x1 - 10, y1 + (start_y - y1)/2));
+        lines[1].setP1(QPoint(startingX_for_classBox - 10, startingY_for_classBox));
+        lines[1].setP2(QPoint(startingX_for_classBox - 10, startingY_for_classBox + (startingY_for_text - startingY_for_classBox)/2));
 
-        lines[2].setP1(QPoint(x1 - 10, y1 + (start_y - y1)/2));
-        lines[2].setP2(QPoint(x1, y1 + (start_y - y1)/2));
+        lines[2].setP1(QPoint(startingX_for_classBox - 10, startingY_for_classBox + (startingY_for_text - startingY_for_classBox)/2));
+        lines[2].setP2(QPoint(startingX_for_classBox, startingY_for_classBox + (startingY_for_text - startingY_for_classBox)/2));
 
         painter.setPen(Qt::red);
         painter.drawLines(lines, 3);
@@ -172,14 +171,14 @@ void drawILine(QPainter& painter, int mode)
     else if(mode == 1)
     {
         QLineF *lines = new QLineF[3];
-        lines[0].setP1(QPoint(x1_base + box_width/2 + 10, y1_base - 5));
-        lines[0].setP2(QPoint(x1_base + box_width/2 + 10, y1_base - 20));
+        lines[0].setP1(QPoint(startingX_for_baseClassBox + box_width/2 + 10, startingY_for_baseClassBox - 5));
+        lines[0].setP2(QPoint(startingX_for_baseClassBox + box_width/2 + 10, startingY_for_baseClassBox - 20));
 
-        lines[1].setP1(QPoint(x1_base + box_width/2 + 10, y1_base - 20));
-        lines[1].setP2(QPoint(x1 + box_width/2, y1_base - 20));
+        lines[1].setP1(QPoint(startingX_for_baseClassBox + box_width/2 + 10, startingY_for_baseClassBox - 20));
+        lines[1].setP2(QPoint(startingX_for_classBox + box_width/2, startingY_for_baseClassBox - 20));
 
-        lines[2].setP1(QPoint(x1 + box_width/2, y1_base - 20));
-        lines[2].setP2(QPoint(x1 + box_width/2, y1));
+        lines[2].setP1(QPoint(startingX_for_classBox + box_width/2, startingY_for_baseClassBox - 20));
+        lines[2].setP2(QPoint(startingX_for_classBox + box_width/2, startingY_for_classBox));
 
         painter.setPen(Qt::red);
         painter.drawLines(lines, 3);
@@ -189,143 +188,143 @@ void drawILine(QPainter& painter, int mode)
 }
 void set_space(const string& mode)
 {
-    //Setting display coordss etc
+    //Setting display coords etc
 
     if(mode == "non-inherited")
     {
-        if(start_y > longest_y)
-        longest_y = start_y;
-        if(start_y > f_y)
-            f_y = start_y;
-        if(x1 > longest_x)
-            longest_x = x1;
+        if(startingY_for_text > longest_y)
+        longest_y = startingY_for_text;
+        if(startingY_for_text > f_y)
+            f_y = startingY_for_text;
+        if(startingX_for_classBox > longest_x)
+            longest_x = startingX_for_classBox;
 
         if(i % 3 == 0)
         {
             //For next class
-            f_y = start_y;
-            prev_ry = start_y;
-            start_y = longest_y + y_space;
-            start_x = 30;
-            x1 = start_x - 10;
-            y1 = start_y - 10;
+            f_y = startingY_for_text;
+            prev_ry = longest_y;//startingY_for_text;
+            startingY_for_text = longest_y + y_space;
+            startingX_for_text = 30;
+            startingX_for_classBox = startingX_for_text - 10;
+            startingY_for_classBox = startingY_for_text - 10;
         }
         else
         {
            //Now reverting coordinates for the next class
-           f_y = start_y;
-           start_x = x1 + box_width + x_space;
-           start_y = prev_ry  + y_space;
-           x1 += box_width + (x_space - 10);
-           y1 = start_y - 10;
+           f_y = startingY_for_text;
+           startingX_for_text = startingX_for_classBox + box_width + x_space;
+           startingY_for_text = prev_ry  + y_space;
+           startingX_for_classBox += box_width + (x_space - 10);
+           startingY_for_classBox = startingY_for_text - 10;
         }
     }
 
     else if(mode == "inherited")
     {
-        if(start_y > longest_y)
-        longest_y = start_y;
-        if(start_y > f_y)
-            f_y = start_y;
-        if(x1 > longest_x)
-            longest_x = x1;
+        if(startingY_for_text > longest_y)
+        longest_y = startingY_for_text;
+        if(startingY_for_text > f_y)
+            f_y = startingY_for_text;
+        if(startingX_for_classBox > longest_x)
+            longest_x = startingX_for_classBox;
 
         if(i % 3 == 0)
         {
             //For next row
             row++;
             i = 0;
-            //prev_ry = start_y;
-            f_y = start_y;
-            start_y = longest_y + y_space;
-            start_x = 30;
-            x1 = start_x - 10;
-            y1 = start_y - 10;
+            //prev_ry = startingY_for_text;
+            f_y = startingY_for_text;
+            startingY_for_text = longest_y + y_space;
+            startingX_for_text = 30;
+            startingX_for_classBox = startingX_for_text - 10;
+            startingY_for_classBox = startingY_for_text - 10;
         }
         else
         {
            //Now reverting coordinates for the next class
-           f_y = start_y;
-           start_y = y1 + 10;
-           start_x = x1 + box_width + x_space;
-           x1 += box_width + (x_space - 10);
-           y1 = start_y - 10;
+           f_y = startingY_for_text;
+           startingY_for_text = startingY_for_classBox + 10;
+           startingX_for_text = startingX_for_classBox + box_width + x_space;
+           startingX_for_classBox += box_width + (x_space - 10);
+           startingY_for_classBox = startingY_for_text - 10;
         }
     }
     else if(mode == "inherited-child")
     {
-        if(start_y > longest_y)
-        longest_y = start_y;
-        if(start_y > f_y)
-            f_y = start_y;
-        if(x1 > longest_x)
-            longest_x = x1;
+        if(startingY_for_text > longest_y)
+        longest_y = startingY_for_text;
+        if(startingY_for_text > f_y)
+            f_y = startingY_for_text;
+        if(startingX_for_classBox > longest_x)
+            longest_x = startingX_for_classBox;
         if(i == 1)
-            least_x = x1;
+            least_x = startingX_for_classBox;
 
         if(i % 3 == 0)
         {
             //For next row
             row++;
             i = 0;
-            //prev_ry = start_y;
-            f_y = start_y;
-            start_y = longest_y + y_space;
-            start_x = least_x + 10;
-            x1 = start_x - 10;
-            y1 = start_y - 10;
+            //prev_ry = startingY_for_text;
+            f_y = startingY_for_text;
+            startingY_for_text = longest_y + y_space;
+            startingX_for_text = least_x + 10;
+            startingX_for_classBox = startingX_for_text - 10;
+            startingY_for_classBox = startingY_for_text - 10;
         }
         else
         {
            //Now reverting coordinates for the next class
-           f_y = start_y;
-           start_y = y1 + 10;
-           start_x = x1 + box_width + x_space;
-           x1 += box_width + (x_space - 10);
-           y1 = start_y - 10;
+           f_y = startingY_for_text;
+           startingY_for_text = startingY_for_classBox + 10;
+           startingX_for_text = startingX_for_classBox + box_width + x_space;
+           startingX_for_classBox += box_width + (x_space - 10);
+           startingY_for_classBox = startingY_for_text - 10;
         }
     }
     else if(mode == "three")
     {
-        start_x = 30;
-        x1 = start_x - 10;
-        start_y += 70;
-        y1 = start_y - 10;
+        startingX_for_text = 30;
+        startingX_for_classBox = startingX_for_text - 10;
+        startingY_for_text += 70;
+        startingY_for_classBox = startingY_for_text - 10;
     }
     else if(mode == "two")
     {
-        start_x = (x_space-10) + box_width/2;
-        x1 = start_x - 10;
-        start_y += 70;
-        y1 = start_y - 10;
+        startingX_for_text = (x_space-10) + box_width/2;
+        startingX_for_classBox = startingX_for_text - 10;
+        startingY_for_text += 70;
+        startingY_for_classBox = startingY_for_text - 10;
     }
     else if(mode == "one")
     {
-        start_x = x1 + 10;
-        x1 = start_x - 10;
-        start_y += 70;
-        y1 = start_y - 10;
+        startingX_for_text = startingX_for_classBox + 10;
+        startingX_for_classBox = startingX_for_text - 10;
+        startingY_for_text += 70;
+        startingY_for_classBox = startingY_for_text - 10;
     }
     else if(mode == "three-child")
     {
-        start_x = longest_x + box_width + x_space;
-        x1 = start_x - 10;
-        start_y += 90;
-        y1 = start_y - 10;
+        startingX_for_text = longest_x + box_width + x_space;
+        startingX_for_classBox = startingX_for_text - 10;
+        startingY_for_text += 90;
+        startingY_for_classBox = startingY_for_text - 10;
     }
     else if(mode == "two-child")
     {
-        start_x = longest_x + x_space + box_width/2 + box_width + x_space;
-        x1 = start_x - 10;
-        start_y += 90;
-        y1 = start_y - 10;
+        startingX_for_text = longest_x + x_space + box_width/2 + box_width + x_space;
+        startingX_for_classBox = startingX_for_text - 10;
+        startingY_for_text += 90;
+        startingY_for_classBox = startingY_for_text - 10;
     }
     else if(mode == "one-child")
     {
-        start_x = x1_base + 10;
-        x1 = start_x - 10;
-        start_y += 90;
-        y1 = start_y - 10;
+        startingX_for_text = startingX_for_baseClassBox + 10;
+        startingX_for_classBox = startingX_for_text - 10;
+        startingY_for_text += 90;
+        startingY_for_classBox = startingY_for_text - 10;
     }
 }
 void commence(Win_main *w)
@@ -339,10 +338,11 @@ void commence(Win_main *w)
     combine();
     parse();
     print(w);
+    //temp_img.setViewBox(QRect(0, 0, 1000, 1000));
 }
 void print_IndepClasses(QPainter& painter)
 {
-    QMessageBox alert;
+    //QMessageBox alert;
 
     //Iterator
     vector<Class>::iterator itr = classes.begin();
@@ -352,7 +352,7 @@ void print_IndepClasses(QPainter& painter)
         if(!(itr->inherited) && !(itr->derived))
         {
             itr->display(painter);
-            prev_x = x1;
+            prev_x = startingX_for_classBox;
             i++;
 
             set_space("non-inherited");
@@ -372,12 +372,12 @@ void print_InheritedClass(QPainter& painter, vector<Class>::iterator& itr)
 
     //Initializations
     row = 0;
-    prev_ry = y1 - 10;
+    prev_ry = startingY_for_classBox - 10;
 
     //Print Base class
     itr->display(painter);
     //Coord update
-    prev_x = x1;
+    prev_x = startingX_for_classBox;
     //Draw arrow head. Coords of the base class are saved in drawArrow()
     drawArrow(painter, 0);
 
@@ -403,7 +403,7 @@ void print_InheritedClass(QPainter& painter, vector<Class>::iterator& itr)
                 if(!((*it)->inherited))
                 {
                     (*it)->display(painter);
-                    prev_x = x1;
+                    prev_x = startingX_for_classBox;
                     i++;
                     if(row == 1)
                         drawILine(painter, 0);
@@ -428,7 +428,7 @@ void print_InheritedClass(QPainter& painter, vector<Class>::iterator& itr)
                 if(!((*it)->inherited))
                 {
                     (*it)->display(painter);
-                    prev_x = x1;
+                    prev_x = startingX_for_classBox;
                     i++;
                     if(row == 1)
                         drawILine(painter, 0);
@@ -452,7 +452,7 @@ void print_InheritedClass(QPainter& painter, vector<Class>::iterator& itr)
                 if(!((*it)->inherited))
                 {
                     (*it)->display(painter);
-                    prev_x = x1;
+                    prev_x = startingX_for_classBox;
                     i++;
                     if(row == 1)
                         drawILine(painter, 0);
@@ -470,10 +470,10 @@ void print_InheritedClass(QPainter& painter, vector<Class>::iterator& itr)
         }
     }
     //Now to print the childs that are inherited further
-    x1 = x1_base;
-    y1 = y1_base;
-    start_x = x1 + 10;
-    start_y = y1 + 10;
+    startingX_for_classBox = startingX_for_baseClassBox;
+    startingY_for_classBox = startingY_for_baseClassBox;
+    startingX_for_text = startingX_for_classBox + 10;
+    startingY_for_text = startingY_for_classBox + 10;
 
     {
         vector<Class*>::iterator it = itr->childs.begin();
@@ -482,8 +482,8 @@ void print_InheritedClass(QPainter& painter, vector<Class>::iterator& itr)
             //Print the arrow head
             drawArrow(painter, 1);
             //Move left
-            x1 = longest_x + 2*box_width + x_space - 30 + x_space;
-            start_x = x1 + 10;
+            startingX_for_classBox = longest_x + 2*box_width + x_space - 30 + x_space;
+            startingX_for_text = startingX_for_classBox + 10;
             while(it != itr->childs.end())
             {
                 //Now, printing this child as a 'Inherited class'
@@ -507,12 +507,12 @@ void print_InheritedClass(QPainter& painter, vector<Class*>::iterator& itr)
 
     //Initializations
     row = 0;
-    prev_ry = y1 - 10;
+    prev_ry = startingY_for_classBox - 10;
 
     //Print Base class
     (*itr)->display(painter);
     //Coord updateZ
-    prev_x = x1;
+    prev_x = startingX_for_classBox;
     //Draw arrow head and line from base to this child. Coords of the base class are saved in drawArrow()
     drawILine(painter, 1);
     drawArrow(painter, 0);
@@ -544,7 +544,7 @@ void print_InheritedClass(QPainter& painter, vector<Class*>::iterator& itr)
                 if(!((*it)->inherited))
                 {
                     (*it)->display(painter);
-                    prev_x = x1;
+                    prev_x = startingX_for_classBox;
                     i++;
                     if(row == 1)
                         drawILine(painter, 0);
@@ -569,7 +569,7 @@ void print_InheritedClass(QPainter& painter, vector<Class*>::iterator& itr)
                 if(!((*it)->inherited))
                 {
                     (*it)->display(painter);
-                    prev_x = x1;
+                    prev_x = startingX_for_classBox;
                     i++;
                     if(row == 1)
                         drawILine(painter, 0);
@@ -593,7 +593,7 @@ void print_InheritedClass(QPainter& painter, vector<Class*>::iterator& itr)
                 if(!((*it)->inherited))
                 {
                     (*it)->display(painter);
-                    prev_x = x1;
+                    prev_x = startingX_for_classBox;
                     i++;
                     if(row == 1)
                         drawILine(painter, 0);
@@ -611,10 +611,10 @@ void print_InheritedClass(QPainter& painter, vector<Class*>::iterator& itr)
         }
     }
     //Now to print the childs that are inherited further
-    x1 = x1_base;
-    y1 = y1_base;
-    start_x = x1 + 10;
-    start_y = y1 + 10;
+    startingX_for_classBox = startingX_for_baseClassBox;
+    startingY_for_classBox = startingY_for_baseClassBox;
+    startingX_for_text = startingX_for_classBox + 10;
+    startingY_for_text = startingY_for_classBox + 10;
 
     //alert.setText("Now for inherited childs of " + QString::fromStdString((*itr)->name));
     //alert.exec();
@@ -625,8 +625,8 @@ void print_InheritedClass(QPainter& painter, vector<Class*>::iterator& itr)
             //Print the arrow head
             drawArrow(painter, 1);
             //Move left
-            x1 += 3*box_width + 20 + 2*x_space;
-            start_x = x1 + 10;
+            startingX_for_classBox += 3*box_width + 20 + 2*x_space;
+            startingX_for_text = startingX_for_classBox + 10;
             while(it != (*itr)->childs.end())
             {
                 //Now, printing this child as a 'Inherited class'
@@ -660,6 +660,9 @@ void print(Win_main  *w)
         return;
 
     temp_img.setFileName(path);
+    //temp_img.setViewBox(QRect(0, 0, 1000, 1000));
+
+    temp_img.setSize(QSize(2000, 2000));
 
     //Painter settings
     QPainter painter;
@@ -679,10 +682,10 @@ void print(Win_main  *w)
     while(itr != classes.end())
     {
         //FORMATTING
-        start_y = longest_y + 100; //MOVE DOWN
-        start_x = box_width + ((x_space - 10) * 2); //ALONG HORIZONTAL
-        y1 = start_y - 10;
-        x1 = start_x - 10;
+        startingY_for_text = longest_y + 100; //MOVE DOWN
+        startingX_for_text = box_width + ((x_space - 10) * 2); //ALONG HORIZONTAL
+        startingY_for_classBox = startingY_for_text - 10;
+        startingX_for_classBox = startingX_for_text - 10;
 
         //CHECK FOR CLASSES THAT ARE INHERITED BUT NOT DERIVED
         if((itr->inherited) && !(itr->derived))
@@ -696,6 +699,7 @@ void print(Win_main  *w)
             itr++;
         }
     }
+
     painter.end();
 }
 void extract_chars(std::ifstream& input)
